@@ -26,11 +26,11 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     @Override
     public String fileuplod(MultipartFile file) {
-        String originalFilename = file.getOriginalFilename();
+        String originalFilename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
         try {
             File file1 = convertMultiPartTiFile(file);
             PutObjectResult putObjectResult = s3Client.putObject(bucketname, originalFilename, file1);
-            return putObjectResult.getContentMd5();
+            return "File Uploaded = " + putObjectResult.getContentMd5() + "_" + originalFilename;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
